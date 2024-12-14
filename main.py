@@ -3,8 +3,18 @@ def main():
     text = get_book_text(book_path)
     num_words = get_num_words(text)
     char_count = get_character_count(text)
+    sorted_characters = chars_dict_to_sorted_list(char_count)
+    
+    print(f"--- Begin report of {book_path} ---")
     print(f"{num_words} words found in the document")
-    print(f"The following is a list of the characters in the text and how many of them there are: {char_count}")
+    print()
+
+    for item in sorted_characters:
+        if not item["char"].isalpha():
+            continue
+        print(f"The '{item['char']}' character was found {item['num']} times")
+
+    print("--- End report ---")
 
 #Gets Raw Text
 def get_book_text(path):
@@ -26,5 +36,16 @@ def get_character_count(text):
             char_count = lowercase_string.count(char)
             characters[f"{char}"] = char_count
     return characters
+
+#Sorts Character Dictionary
+def sort_on(d):
+    return d["num"]
+
+def chars_dict_to_sorted_list(char_count):
+    sorted_list = []
+    for ch in char_count:
+        sorted_list.append({"char": ch, "num": char_count[ch]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
 
 main()
