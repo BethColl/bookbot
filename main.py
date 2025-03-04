@@ -1,30 +1,30 @@
+import sys
+from stats import get_num_words
+
 def main():
-    book_path = "books/frankenstein.txt"
-    text = get_book_text(book_path)
-    num_words = get_num_words(text)
-    char_count = get_character_count(text)
-    sorted_characters = chars_dict_to_sorted_list(char_count)
-    
-    print(f"--- Begin report of {book_path} ---")
-    print(f"{num_words} words found in the document")
-    print()
+	if len(sys.argv) != 2:
+		print(f"Usage: python 3 main.py <path_to_book>")
+		sys.exit(1)
+	book_path = sys.argv[1]
+	text = get_book_text(book_path)
+	num_words = get_num_words(text)
+	char_count = get_character_count(text)
+	sorted_characters = chars_dict_to_sorted_list(char_count)
+	print(f"--- Begin report of {book_path} ---")
+	print(f"{num_words} words found in the document")
+	print()
 
-    for item in sorted_characters:
-        if not item["char"].isalpha():
-            continue
-        print(f"The '{item['char']}' character was found {item['num']} times")
+	for item in sorted_characters:
+        	if not item["char"].isalpha():
+            		continue
+        	print(f"{item['char']}: {item['num']}")
 
-    print("--- End report ---")
+	print("--- End report ---")
 
 #Gets Raw Text
 def get_book_text(path):
     with open(path) as f:
         return f.read()
-
-#Counts Words In Book
-def get_num_words(text):
-    words = text.split()
-    return len(words)
 
 #Makes Text Lowercase And Counts Characters
 def get_character_count(text):
